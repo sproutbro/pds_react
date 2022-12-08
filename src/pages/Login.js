@@ -18,7 +18,9 @@ const Login = () => {
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" onClick={() =>
+            console.log(1)
+          }>
             Login
           </Button>
           <Button variant="primary" onClick={() => navigate('/join')}>
