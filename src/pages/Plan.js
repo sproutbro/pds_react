@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import PlanForm from "../components/PlanForm";
 
 const Plan = () => {
@@ -18,19 +18,27 @@ const Plan = () => {
 
   return (
     <>
+    <Table>
+      <thead>
+        <tr>
+          <th>계획</th>
+          <th>마감일</th>
+        </tr>
+      </thead>
+      <tbody>
       {
         planList.map((e,i) => {
+          let endDate = new Date(e.endDate);
           return (
-            <div key={e.id}>
-              <div>{e.id}</div>
-              <div>{e.title}</div>
-              <div>{e.memo}</div>
-              <div>{e.regDate}</div>
-              <div>{e.endDate}</div>
-            </div>
+            <tr key={i}>
+              <td>{e.title}</td>
+              <td>{endDate.toDateString()}</td>
+            </tr>
           )
         })
       }
+      </tbody>
+    </Table>
 
       {
         planFormState === true
