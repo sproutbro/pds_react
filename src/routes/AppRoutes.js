@@ -6,7 +6,13 @@ import Join from "../pages/Join";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<div>ㄴㅇ러ㅑㅐㅇㄴ러ㅑㅐㄴㅇ러ㅑㅐ</div>}></Route>
+      <Route path="/" element={
+      <div>
+          <h5>git주소</h5>
+          프론트 : https://github.com/sproutbro/pds_react<br />
+          백 : https://github.com/sproutbro/pds_spring<br />
+      </div>
+      }></Route>
       <Route path="/plan" element={<Plan />}></Route>
       <Route path="/do" element={<div>do</div>}></Route>
       <Route path="/see" element={<div>see</div>}></Route>

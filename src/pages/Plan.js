@@ -2,10 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import PlanForm from "../components/PlanForm";
+import PlanModal from "../components/PlanModal";
 
 const Plan = () => {
   const [planFormState, setPlanFormState] = useState(false);
+  const [planModalState, setPlanModalState] = useState(false);
   const [planList, setPlanList] = useState([]);
+  const [plan, setPlan] = useState();
 
   useEffect(() => {
     
@@ -18,6 +21,11 @@ const Plan = () => {
 
   return (
     <>
+    {
+      planModalState === true
+      ? <PlanModal plan={plan} setPlanModalState={setPlanModalState}/>
+      : null
+    }
     <Table>
       <thead>
         <tr>
@@ -30,7 +38,10 @@ const Plan = () => {
         planList.map((e,i) => {
           let endDate = new Date(e.endDate);
           return (
-            <tr key={i}>
+            <tr key={i} onClick={() => {
+              setPlan(e);
+              setPlanModalState(true);
+            }}>
               <td>{e.title}</td>
               <td>{endDate.toDateString()}</td>
             </tr>
