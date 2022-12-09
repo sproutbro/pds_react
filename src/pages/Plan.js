@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import PlanForm from "../components/PlanForm";
 import PlanModal from "../components/PlanModal";
+import PlanTable from "../components/PlanTable";
 
 const Plan = () => {
   const [planFormState, setPlanFormState] = useState(false);
@@ -10,13 +12,11 @@ const Plan = () => {
   const [planList, setPlanList] = useState([]);
   const [plan, setPlan] = useState();
 
-  useEffect(() => {
-    
-    axios.get("/plan")
-      .then(res => {
-        setPlanList(res.data)
-      })
+  const username = useSelector((state) => state.username);
 
+  useEffect(() => {
+    axios.get("/plan")
+      .then(res => setPlanList(res.data))
   },[]);
 
   return (
@@ -26,38 +26,22 @@ const Plan = () => {
       ? <PlanModal plan={plan} setPlanModalState={setPlanModalState}/>
       : null
     }
-    <Table>
-      <thead>
-        <tr>
-          <th>계획</th>
-          <th>마감일</th>
-        </tr>
-      </thead>
-      <tbody>
-      {
-        planList.map((e,i) => {
-          let endDate = new Date(e.endDate);
-          return (
-            <tr key={i} onClick={() => {
-              setPlan(e);
-              setPlanModalState(true);
-            }}>
-              <td>{e.title}</td>
-              <td>{endDate.toDateString()}</td>
-            </tr>
-          )
-        })
-      }
-      </tbody>
-    </Table>
 
-      {
-        planFormState === true
-        ? <PlanForm/>
-        : null
-      }
+    <PlanTable 
+      planList={planList}
+      setPlan={setPlan}
+      setPlanModalState={setPlanModalState}/>
 
-      <Button onClick={() => setPlanFormState(!planFormState)}>새 계획</Button>
+    {
+      planFormState === true
+      ? <PlanForm/>
+      : null
+    }
+    {
+      username !== ''
+      ? <Button onClick={() => setPlanFormState(!planFormState)}>{username}새 계획</Button>
+      : null
+    }
     </>
   )
 }
