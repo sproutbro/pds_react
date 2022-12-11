@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Plan from "../pages/Plan";
 import Login from "../pages/Login";
 import Join from "../pages/Join";
+import axios from "axios";
 
 const AppRoutes = () => {
   return (
@@ -15,7 +16,14 @@ const AppRoutes = () => {
       }></Route>
       <Route path="/plan" element={<Plan />}></Route>
       <Route path="/do" element={<div>dotest</div>}></Route>
-      <Route path="/see" element={<div>see</div>}></Route>
+      <Route path="/see" element={<div>
+        <button onClick={() => {
+          axios.get("test")
+            .then(res => console.log(res.data))
+        }}>
+          dkfoksodpf
+        </button>
+      </div>}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/join" element={<Join />}></Route>
       <Route path="*" element={<div>404</div>}></Route>
