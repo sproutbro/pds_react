@@ -33,7 +33,7 @@ const Join = () => {
 
   //Join 함수
   const joinAction = () => {
-    const JoinData = {
+    const joinData = {
       username,
       password
     }
@@ -45,7 +45,7 @@ const Join = () => {
       }
     }
 
-    axios.post("/join", JoinData)
+    axios.post("/join", joinData)
       .then(res => joinThen(res.data))
       .catch(err => joinThen(err))
   }
