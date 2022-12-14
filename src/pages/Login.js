@@ -1,10 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { changeLogin } from "../store/store";
 
 const Login = () => {
   const navigate = useNavigate();
+  let state = useSelector((state) => state);
+  let dispatch = useDispatch();
 
   const [loginMsg, setLoginMsg ] = useState();
   const [username, setUsername] = useState("");
@@ -40,23 +44,22 @@ const Login = () => {
       username,
       password
     }
-    const loginThen = (data) => {
-      if(data === 1) {
-        setLoginMsg("로그인 성공")
-      } else {
-        setLoginMsg("로그인 실패")
-      }
-    }
 
     axios.post("/login", loginData)
-      .then(res => loginThen(res.data))
-      .catch(err => loginThen(err))
+      .then(res => {
+        if(res.headers["authorization"]) {
+          localStorage.setItem("Authorization", res.headers["authorization"]);
+          window.location.replace("/")
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   return (
     <>
       <Card>
         <Card.Body>
+        <h1>{state.username}</h1>
         <Form id="loginForm">
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -82,19 +85,6 @@ const Login = () => {
         </Card.Body>
       </Card>
       <h1>{loginMsg}</h1>
-      <button onClick={() => {
-        axios.get("/user")
-          .then(res => {
-            console.log(res.data)
-          })
-      }}>체크</button>
-
-      <button onClick={() => {
-        axios.get("/nouser")
-          .then(res => {
-            console.log(res.data)
-          })
-      }}>노유저체크</button>
     </>
   )
 }

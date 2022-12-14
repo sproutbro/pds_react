@@ -1,19 +1,19 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-const username = createSlice({
-  name : 'username',
-  initialState: '',
+const loginState = createSlice({
+  name : 'login',
+  initialState: false,
   reducers: {
-    setUsername(state, action) {
-      return action.payload
+    changeLogin(state) {
+      return true;
     }
   }
 })
 
-export const {setUsername} = username.actions;
+export let {changeLogin} = loginState.actions;
 
 export default configureStore({
   reducer: {
-    username: username.reducer
+    loginState: loginState.reducer
   }
 })

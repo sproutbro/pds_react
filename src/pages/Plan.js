@@ -37,11 +37,8 @@ const Plan = () => {
       ? <PlanForm/>
       : null
     }
-    {
-      username !== ''
-      ? <Button onClick={() => setPlanFormState(!planFormState)}>{username}새 계획</Button>
-      : null
-    }
+    
+    <Button onClick={() => setPlanFormState(!planFormState)}>새 계획</Button>
     </>
   )
 }

@@ -1,7 +1,10 @@
 import { Card, Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const PlanForm = () => {
+
+  const loginState = useSelector((state) => state.loginState);
 
   const planAction = () => {
     const planForm = document.getElementById('planForm');
@@ -42,9 +45,19 @@ const PlanForm = () => {
               name="memo"
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="비공개" name="privateYN"/>
-          </Form.Group>
+          
+          {
+            loginState
+            ? 
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="비공개" name="privateYN"/>
+            </Form.Group>
+            : 
+            <Form.Group className="mb-3">
+              <Form.Label>비밀번호</Form.Label>
+              <Form.Control type="passowrd" name="password"/>
+            </Form.Group>
+          }
           <Button variant="primary" onClick={planAction}>
             Submit
           </Button>
