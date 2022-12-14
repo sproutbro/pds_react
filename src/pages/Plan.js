@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
 import PlanForm from "../components/PlanForm";
 import PlanModal from "../components/PlanModal";
 import PlanTable from "../components/PlanTable";
@@ -12,11 +11,11 @@ const Plan = () => {
   const [planList, setPlanList] = useState([]);
   const [plan, setPlan] = useState();
 
-  const username = useSelector((state) => state.username);
-
   useEffect(() => {
     axios.get("/plan")
-      .then(res => setPlanList(res.data))
+      .then(res => {
+        setPlanList(res.data)
+      })
   },[]);
 
   return (
@@ -34,7 +33,9 @@ const Plan = () => {
 
     {
       planFormState === true
-      ? <PlanForm/>
+      ? <PlanForm
+        setPlanFormState={setPlanFormState}
+      />
       : null
     }
     

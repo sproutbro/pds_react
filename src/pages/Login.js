@@ -1,14 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { changeLogin } from "../store/store";
 
 const Login = () => {
   const navigate = useNavigate();
   let state = useSelector((state) => state);
-  let dispatch = useDispatch();
 
   const [loginMsg, setLoginMsg ] = useState();
   const [username, setUsername] = useState("");

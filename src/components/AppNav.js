@@ -13,6 +13,7 @@ const AppNav = () => {
         <Navbar.Brand onClick={() => navigate('/')}>PDS</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link onClick={() => navigate('/plan')}>Plan</Nav.Link>
+          <Nav.Link onClick={() => navigate('/doDev')}>DoDev</Nav.Link>
           <Nav.Link onClick={() => navigate('/do')}>Do</Nav.Link>
           <Nav.Link onClick={() => navigate('/see')}>See</Nav.Link>
           {

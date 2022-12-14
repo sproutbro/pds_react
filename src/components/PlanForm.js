@@ -2,27 +2,38 @@ import { Card, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const PlanForm = () => {
+const PlanForm = (props) => {
 
   const loginState = useSelector((state) => state.loginState);
 
   const planAction = () => {
     const planForm = document.getElementById('planForm');
+
+    let planPrivate = 'Y';
+    if(planForm.privateYN){
+      planPrivate = planForm.privateYN.checked ? 'Y' : 'N';
+    }
     
-    let privateYN = 0;
-    if(planForm.privateYN.checked) {
-      privateYN = 1;
+    let planPassword = '';
+    if(planForm.password) {
+      planPassword = planForm.password.value
     }
 
-    const planDate = {
-      title: planForm.title.value,
-      endDate: planForm.endDate.value,
-      memo: planForm.memo.value,
-      privateYN
+    const planData = {
+      planTitle: planForm.title.value,
+      planEndDate: planForm.endDate.value,
+      planMemo: planForm.memo.value,
+      planCategory: planForm.category.value,
+      planPassword,
+      planPrivate
     }
 
-    axios.post("/plan", planDate)
-      .then(res => console.log(res))
+    axios.post("/plan", planData)
+      .then(res => {
+        if(res.status) {
+          props.setPlanFormState(false)
+        }
+      })
   }
 
   return (
@@ -32,6 +43,10 @@ const PlanForm = () => {
           <Form.Group className="mb-3">
             <Form.Label>계획</Form.Label>
             <Form.Control type="text" placeholder="새로운 계획" name="title"/>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>카테고리</Form.Label>
+            <Form.Control type="text" placeholder="카테고리" name="category"/>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>마감일</Form.Label>
@@ -50,7 +65,7 @@ const PlanForm = () => {
             loginState
             ? 
             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="비공개" name="privateYN"/>
+              <Form.Check type="checkbox" label="공개" name="privateYN"/>
             </Form.Group>
             : 
             <Form.Group className="mb-3">

@@ -6,13 +6,14 @@ import Main from "../pages/Main";
 import Do from "../pages/Do";
 import See from "../pages/See"
 import User from "../pages/User";
-import axios from "axios";
+import DoDev from "../pages/DoDev";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Main />}></Route>
       <Route path="/plan" element={<Plan />}></Route>
+      <Route path="/doDev" element={<DoDev />}></Route>
       <Route path="/do" element={<Do />}></Route>
       <Route path="/see" element={<See />}></Route>
       <Route path="/login" element={<Login />}></Route>

@@ -16,13 +16,13 @@ const PlanTable = (props) => {
     <tbody>
     {
       planList.map((e,i) => {
-        let endDate = new Date(e.endDate);
+        let endDate = new Date(e.planEndDate);
         return (
           <tr key={i} onClick={() => {
             setPlan(e);
             setPlanModalState(true);
           }}>
-            <td>{e.title}</td>
+            <td>{e.planTitle}</td>
             <td>{endDate.toDateString()}</td>
           </tr>
         )
