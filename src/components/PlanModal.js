@@ -1,12 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {Form} from 'react-bootstrap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function PlanModal(props) {
 
   const [password, setPassword] = useState();
+  const [replyMemo, setReplyMemo] = useState();
+  const [replyList, setReplyList] = useState([]);
   
   let endDate = new Date(props.plan.planEndDate);
   const year = endDate.getFullYear();
@@ -20,6 +22,13 @@ function PlanModal(props) {
   const regDate2 = regDate.getDate();
   regDate = (`${regYear}-${regMonth >= 10 ? regMonth : '0' + regMonth}-${regDate2 >= 10 ? regDate2 : '0' + date}`);
   
+  useEffect(() => {
+    axios.get("/reply/" + props.plan.planId)
+      .then(res => {
+        setReplyList(res.data);
+      })
+  },[])
+
   return (
     <div
       className="modal show"
@@ -80,6 +89,30 @@ function PlanModal(props) {
             </>
             : null
           }
+        </Modal.Footer>
+        <Modal.Footer>
+          {
+            replyList.map((e,i) => {
+              console.log(e)
+              return (
+                <div key={e.replyId}>
+                  <span>작성자 : {e.username}</span>
+                  <span>메모 : {e.replyMemo}</span>
+                </div>
+              )
+            })
+          }
+          <div>
+            <span>응원글달기</span><input type="text" onChange={e => 
+            {
+              setReplyMemo(e.target.value);
+            }}></input><Button onClick={() =>{
+              axios.post("/reply", {
+                replyMemo,
+                planId: props.plan.planId
+              })
+            }}>작성</Button>
+          </div>
         </Modal.Footer>
       </Modal.Dialog>
     </div>
