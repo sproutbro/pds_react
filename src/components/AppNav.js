@@ -1,6 +1,7 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import AppUserNav from "./AppUserNav";
 
 const AppNav = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const AppNav = () => {
            
           {
             loginState !== null
-            ? <Nav.Link onClick={() => navigate('/user')}>User</Nav.Link>
+            ? <AppUserNav />
             : <Nav.Link onClick={() => navigate('/login')}>Login</Nav.Link>
           }
           

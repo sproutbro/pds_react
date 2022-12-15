@@ -1,15 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Table, Form, InputGroup, Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import Utils from "../utils/Utils";
 
 const PlanReply = () => {
-  const {id} = useParams();
+  const { id } = useParams();
+  const planId = id;  
+  const navigate = useNavigate();
+  const loginState = useSelector(state => state.loginState);
+
   const [replyList, setReplyList] = useState([]);
+  const [replyMemo, setReplyMemo] = useState("");
 
   useEffect(() => {
-    axios.get("/reply/" + id)
+    axios.get("/reply/" + planId)
       .then(res => setReplyList(res.data))
       .catch(err => console.log(err))
   },[])
@@ -34,6 +40,29 @@ const PlanReply = () => {
             </tr>
           )
         })
+      }
+      {
+        loginState
+        ? 
+        <tr>
+          <td colSpan="3">
+            <InputGroup className="mb-3">
+              <InputGroup.Text>댓글</InputGroup.Text>
+              <Form.Control onChange={e => setReplyMemo(e.target.value)}></Form.Control>
+              <Button variant="outline-secondary"
+                onClick={() => {
+                  axios.post("/reply", {replyMemo, planId})
+                    .then(res => {
+                      if(res.data) {
+                        navigate("/plan/" + planId)
+                      }
+                    })
+                }}
+              >등록</Button>
+            </InputGroup>
+          </td>
+        </tr>
+        : null
       }
     </tbody>
   </Table>

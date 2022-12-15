@@ -10,10 +10,22 @@ const loginState = createSlice({
   }
 })
 
+const myState = createSlice({
+  name : 'myState',
+  initialState: true,
+  reducers: {
+    myAction(state) {
+      return !state
+    }
+  }
+})
+export let {myAction} = myState.actions;
+
 export let {loginAction} = loginState.actions;
 
 export default configureStore({
   reducer: {
-    loginState: loginState.reducer
+    loginState: loginState.reducer,
+    myState: myState.reducer
   }
 })

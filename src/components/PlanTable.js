@@ -1,19 +1,11 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import {Table} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Utils from '../utils/Utils';
 
-const PlanTable = () => {
-  const [planList, setPlanList] = useState([]);
+const PlanTable = (props) => {
+  const planList = props.planList;
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get("/plan")
-      .then(res => {
-        setPlanList(res.data)
-      })
-  },[])
   return (
     <Table>
     <thead>
