@@ -1,9 +1,9 @@
 import { useState } from "react";
 import {Card, Form, Button, Alert} from "react-bootstrap";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginAction } from "../store/store";
 import Utils from "../utils/Utils";
+import { loginAction } from "../store/store";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,8 +21,9 @@ const Login = () => {
     } else if (!checkPassword) {
       setMsg("비번오류 8~20 특수문자포함")
     } else {
-      setMsg("");
-      dispatch(loginAction({username, password}));
+      Utils.login({username, password})
+        .then(res => dispatch(loginAction(res)))
+        .catch(err => dispatch(loginAction(err)));
     }
   }
 

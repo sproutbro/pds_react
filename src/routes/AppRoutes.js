@@ -8,11 +8,12 @@ import See from "../pages/See"
 import User from "../pages/User";
 import DoDev from "../pages/DoDev";
 import PlanDetail from "../pages/PlanDetail";
+import PlanWrite from "../pages/PlanWrite";
 import { useSelector } from "react-redux";
 
 
 const AppRoutes = () => {
-  const state = useSelector(state => state);
+  const loginState = useSelector(state => state.loginState);
   return (
     <Routes>
       <Route path="/" element={<Main />}></Route>
@@ -21,18 +22,19 @@ const AppRoutes = () => {
       <Route path="/doDev" element={<DoDev />}></Route>
       <Route path="/do" element={<Do />}></Route>
       <Route path="/see" element={<See />}></Route>
-
+      
       {
-        state.loginState === ""
-        ?<>
+        loginState !== null
+        ? <>
+          <Route path="/user" element={<User />}></Route>
+          <Route path="/planWrite" element={<PlanWrite />}></Route>
+        </>
+        : <>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/join" element={<Join />}></Route>
         </>
-        :<>
-          <Route path="/user" element={<User />}></Route>
-        </>
       }
- 
+
       <Route path="*" element={<div>404</div>}></Route>
     </Routes>
   )

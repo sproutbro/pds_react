@@ -5,6 +5,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginAction } from "./store/store";
+import Utils from "./utils/Utils";
 
 axios.defaults.baseURL=process.env.REACT_APP_BASE_URL;
 
@@ -13,22 +14,9 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loginAction());
-    // let token = localStorage.getItem("Authorization");
-    // if(token) {
-    //   axios.defaults.headers.common["Authorization"] = token;
-
-    //   axios.get("/user")
-    //     .then(res => {
-    //       dispatch(changeUsername("dddd"))
-    //     })
-    //     .catch(err => {
-    //       localStorage.removeItem("Authorization")
-    //       axios.defaults.headers.common["Authorization"] = null;
-    //       dispatch(changeUsername(""))
-    //     })
-        
-    // }
+    Utils.loginCheck()
+      .then(res => dispatch(loginAction(res)))
+      .catch(err => dispatch(loginAction(err)));
   },[])
 
   return (

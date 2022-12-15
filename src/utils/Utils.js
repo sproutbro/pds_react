@@ -1,8 +1,43 @@
+import axios from "axios";
+
 const Utils = {
   "getDate": getDate,
   "getDDay": getDDay,
   "checkEmail": checkEmail,
-  "checkPassword": checkPassword
+  "checkPassword": checkPassword,
+  "login": login,
+  "loginCheck": loginCheck
+}
+
+async function loginCheck() {
+  axios.defaults.headers.common["Authorization"] = localStorage.getItem("Authorization");
+  try {
+    const res = await axios.get("/user");  
+    return res.status;
+  } catch (error) {
+    localStorage.removeItem("Authorization");
+    axios.defaults.headers.common["Authorization"] = null;
+    return null;
+  }
+}
+      
+async function login(data) {
+  
+  try {
+    const res = await axios.post("/login", data);
+    const token = res.headers.authorization;
+
+    //로컬스토리지에 토큰 저장
+    localStorage.setItem("Authorization", token);
+    //axios 요청 헤더에 토큰 저장
+    axios.defaults.headers.common["Authorization"] = token;
+    return token
+  } catch (error) {
+    axios.defaults.headers.common["Authorization"] = null;
+    localStorage.removeItem("Authorization");
+    return null    
+  }
+  
 }
 
 function getDate(rowDate) {

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const AppNav = () => {
   const navigate = useNavigate();
 
-  const state = useSelector(state => state);
+  const loginState = useSelector(state => state.loginState);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -16,10 +16,11 @@ const AppNav = () => {
           <Nav.Link onClick={() => navigate('/doDev')}>DoDev</Nav.Link>
           <Nav.Link onClick={() => navigate('/do')}>Do</Nav.Link>
           <Nav.Link onClick={() => navigate('/see')}>See</Nav.Link>
+           
           {
-            state.loginState === ""
-            ? <Nav.Link onClick={() => navigate('/login')}>Login</Nav.Link>
-            : <Nav.Link onClick={() => navigate('/user')}>User</Nav.Link>
+            loginState !== null
+            ? <Nav.Link onClick={() => navigate('/user')}>User</Nav.Link>
+            : <Nav.Link onClick={() => navigate('/login')}>Login</Nav.Link>
           }
           
         </Nav>

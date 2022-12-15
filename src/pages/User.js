@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { loginAction } from "../store/store";
+import Utils from "../utils/Utils";
 
 const User = () => {
 
@@ -7,7 +8,9 @@ const User = () => {
 
   const logOut = () =>{
     localStorage.removeItem("Authorization");
-    dispatch(loginAction());
+    Utils.loginCheck()
+      .then(res => dispatch(loginAction(res)))
+      .catch(err => dispatch(loginAction(err)));
   }
   
   return (
