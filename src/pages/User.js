@@ -1,10 +1,15 @@
+import { useDispatch } from "react-redux";
+import { loginAction } from "../store/store";
 
 const User = () => {
 
+  const dispatch = useDispatch();
+
   const logOut = () =>{
     localStorage.removeItem("Authorization");
-    window.location.replace("/");
+    dispatch(loginAction());
   }
+  
   return (
     <>
       <h1>User</h1>

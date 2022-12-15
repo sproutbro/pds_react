@@ -24,7 +24,7 @@ const DoDev = () => {
           doDate = (`${year}-${month >= 10 ? month : '0' + month}-${date >= 10 ? date : '0' + date}`);
 
           return (
-            <Card key={e.planId}>
+            <Card key={e.doId}>
               <p>제목 : {e.planTitle}</p>
               <p>완료날자 : {doDate}</p>
               <p>상태 : {

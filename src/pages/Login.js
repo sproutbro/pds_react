@@ -1,88 +1,60 @@
-import axios from "axios";
 import { useState } from "react";
-import { Card, Form, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import {Card, Form, Button, Alert} from "react-bootstrap";
+import { useDispatch} from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loginAction } from "../store/store";
+import Utils from "../utils/Utils";
 
 const Login = () => {
   const navigate = useNavigate();
-  let state = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-  const [loginMsg, setLoginMsg ] = useState();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [msg, setMsg] = useState("");
 
-  const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-  const passwordRegEx = /^[A-Za-z0-9]{8,20}$/
-
-  //username check 함수
-  const usernameCheck = (username) => {
-    return emailRegEx.test(username);
-  }
-
-  //password check 함수
-  const passwordCheck = (password) => {
-    return passwordRegEx.test(password);
-  }
-
-  //login check
-  const loginCheck = () => {
-    if(!usernameCheck(username)) {
-      setLoginMsg("email 형식 오류")
-    } else if(!passwordCheck(password) || password === null) {
-      setLoginMsg("비밀번호 형식 오류")
+  const loginClick = () => {
+    let checkEmail = Utils.checkEmail(username);
+    let checkPassword = Utils.checkPassword(password);
+    if(!checkEmail) {
+      setMsg("이메일 형식 오류");
+    } else if (!checkPassword) {
+      setMsg("비번오류 8~20 특수문자포함")
     } else {
-      loginAction()
+      setMsg("");
+      dispatch(loginAction({username, password}));
     }
-  }
-
-  //login 함수
-  const loginAction = () => {
-    const loginData = {
-      username,
-      password
-    }
-
-    axios.post("/login", loginData)
-      .then(res => {
-        if(res.headers["authorization"]) {
-          localStorage.setItem("Authorization", res.headers["authorization"]);
-          window.location.replace("/")
-        }
-      })
-      .catch(err => console.log(err))
   }
 
   return (
     <>
       <Card>
         <Card.Body>
-        <h1>{state.username}</h1>
-        <Form id="loginForm">
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Card.Title>Login</Card.Title>
+        {
+          msg !== ""
+          ? <Alert key='danger' variant='danger'>{msg}</Alert>
+          : null
+        }
+        <Form>
+          <Form.Group className="mb-3" controlId="formBasicEmail" 
+          onChange={e => setUsername(e.target.value)}>
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" onChange={e => {
-              setUsername(e.target.value)
-            }}/>
+            <Form.Control type="email" placeholder="Enter email" />
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={e => {
-              setPassword(e.target.value)
-            }}/>
+            <Form.Control type="password" placeholder="Password" 
+            onChange={e => setPassword(e.target.value)}/>
           </Form.Group>
-
-          <Button variant="primary" onClick={loginCheck}>
-            Login
-          </Button>
-          <Button variant="primary" onClick={() => navigate('/join')}>
-            Join
-          </Button>
+          <Button variant="primary" onClick={loginClick}>Login</Button>
         </Form>
         </Card.Body>
+        <Card.Footer>
+        <Button variant="primary" onClick={() => navigate("/join")}>Join</Button>
+        </Card.Footer>
       </Card>
-      <h1>{loginMsg}</h1>
     </>
   )
 }

@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const Join = () => {
+  const navigate = useNavigate();
   const [joinMsg, setJoinMsg ] = useState();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,17 +24,12 @@ const Join = () => {
 
   //join check
   const joinCheck = () => {
-    if(!usernameCheck(username)) {
-      setJoinMsg("email 형식 오류")
-    } else if(!passwordCheck(password) || password === null) {
-      setJoinMsg("비밀번호 형식 오류")
-    } else {
       joinAction()
-    }
   }
 
   //Join 함수
   const joinAction = () => {
+    console.log(111111)
     const joinData = {
       username,
       password
@@ -53,8 +50,8 @@ const Join = () => {
   return (
     <>
       <Card>
+        
         <Card.Body>
-        <Card.Title>가입하기</Card.Title>
         <Form id="joinForm">
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
@@ -74,8 +71,11 @@ const Join = () => {
           </Button>
         </Form>
         </Card.Body>
+
+        <Card.Footer>
+          <Button variant="primary" onClick={() => navigate("/Login")}>Login</Button>
+        </Card.Footer>
       </Card>
-      <h1>{joinMsg}</h1>
     </>
   )
 }
