@@ -1,45 +1,39 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Button, Table, CardImg, CardGroup } from "react-bootstrap";
-import CardHeader from "react-bootstrap/esm/CardHeader";
+import { Card, Button, Table } from "react-bootstrap";
+
+import DoTitle from "./Do/DoTitle";
+import DoBody from "./Do/DoBody";
 
 const Do = () => {
-  const doAction = () => {
+  const [doList, setDoList] = useState([]);
+
+  // const doAction = () => {
+  //   axios.get("/do/findAll").then((res) => {
+  //     alert(res.data);
+  //     setDoList(res.data);
+  //     console.log(doList);
+  //   });
+  // };
+  useEffect(() => {
     axios
-      .get("/do/testgi")
-      .then((res) => {
-        alert(res.data);
-      })
+      .post("/do/findAll")
+      .then((res) => setDoList(res.data))
       .catch((err) => alert(err));
-  };
+  }, []);
 
   return (
     <>
       <Card style={{ textAlign: "center" }}>
-        <CardHeader></CardHeader>
-        <Card.Body>
-          <Table>
-            <tHead>
-              <tr>
-                <th>123</th>
-                <th>123</th>
-                <th>123</th>
-                <th>123</th>
-              </tr>
-            </tHead>
-            <tBody>
-              <tr>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
-                <td>123</td>
-              </tr>
-            </tBody>
-          </Table>
-        </Card.Body>
+        <Card.Header />
+        <Table>
+          <DoTitle />
+          {doList.map((planDo, key) => (
+            <DoBody planDo={planDo} key={key}></DoBody>
+          ))}
+        </Table>
         <Card.Footer>
-          <Button variant="primary" onClick={doAction}>
-            add
-          </Button>
+          <Button variant="primary">add</Button>
         </Card.Footer>
       </Card>
     </>
