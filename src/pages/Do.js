@@ -1,29 +1,49 @@
 import axios from "axios";
-import { Card } from "react-bootstrap";
+import { Card, Button, Table, CardImg, CardGroup } from "react-bootstrap";
+import CardHeader from "react-bootstrap/esm/CardHeader";
 
 const Do = () => {
-
-
   const doAction = () => {
-    axios.get("/test")
-    .then(res => {
-      console.log("121212");
-      alert(res.data);
-    })
-    .catch(err => alert(err))
-  }
-  
+    axios
+      .get("/do/testgi")
+      .then((res) => {
+        alert(res.data);
+      })
+      .catch((err) => alert(err));
+  };
 
   return (
     <>
-    <Card>
-    <div>dotest</div>
-    <button variant="primary" onClick={doAction}>
-            버튼
-    </button>
-    </Card>
+      <Card style={{ textAlign: "center" }}>
+        <CardHeader></CardHeader>
+        <Card.Body>
+          <Table>
+            <tHead>
+              <tr>
+                <th>123</th>
+                <th>123</th>
+                <th>123</th>
+                <th>123</th>
+              </tr>
+            </tHead>
+            <tBody>
+              <tr>
+                <td>123</td>
+                <td>123</td>
+                <td>123</td>
+                <td>123</td>
+              </tr>
+            </tBody>
+          </Table>
+        </Card.Body>
+        <Card.Footer>
+          <Button variant="primary" onClick={doAction}>
+            add
+          </Button>
+        </Card.Footer>
+      </Card>
     </>
-  )
-}
+  );
+};
 
 export default Do;

@@ -13,7 +13,7 @@ const PlanTable = (props) => {
         <th>계획</th>
         <th>re</th>
         <th>카테고리</th>
-        <th>남은시간</th>
+        <th>남은시간11</th>
       </tr>
     </thead>
     <tbody>
